@@ -1,0 +1,30 @@
+{
+  "name": "room-voice-chat-demo-main",
+  "version": "1.0.0",
+  "description": "A feature-rich Flutter application for creating and managing voice chat rooms with real-time communication, gift system, and social features.",
+  "main": "server.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samersoub/dandanh-chat.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/samersoub/dandanh-chat/issues"
+  },
+  "homepage": "https://github.com/samersoub/dandanh-chat#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "socket.io": "^4.8.3"
+  }
+}

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 import 'widgets/host_section.dart';
 import 'widgets/participant_grid.dart';
 import 'widgets/notifications_section.dart';
+import 'widgets/bottom_nav_bar.dart';
 import 'screens/auth/login_screen.dart';
 import 'screens/auth/register_screen.dart';
 import 'screens/profile/profile_screen.dart';
@@ -12,10 +15,17 @@ import 'screens/room/room_list_screen.dart';
 import 'screens/settings/settings_screen.dart';
 import 'services/navigation_service.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: 'https://gzdccsqoycbxummcpukp.supabase.co',
+    anonKey: 'sb_publishable_5LthY35D9ciX9toBUOPbMw_bbXMNhAj',
+  );
+
   runApp(const MyApp());
 }
-
+git status
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -86,8 +96,6 @@ class VoiceChatRoom extends StatelessWidget {
                                   image: CachedNetworkImageProvider(
                                     'https://example.com/gift.jpg',
                                   ),
-                              ),
-                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
@@ -159,9 +167,10 @@ class VoiceChatRoom extends StatelessWidget {
                               GestureDetector(
                                 onTap: () => NavigationService.navigateTo(AppRoutes.profile),
                                 child: CircleAvatar(
-                                radius: 20,
-                                backgroundImage: CachedNetworkImageProvider(
-                                  'https://example.com/avatar.jpg',
+                                  radius: 20,
+                                  backgroundImage: CachedNetworkImageProvider(
+                                    'https://example.com/avatar.jpg',
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 8),
@@ -334,7 +343,7 @@ class VoiceChatRoom extends StatelessWidget {
                 ),
               ),
               // Bottom Navigation
-              const Positioned(
+              Positioned(
                 bottom: 0,
                 left: 0,
                 right: 0,
@@ -342,6 +351,34 @@ class VoiceChatRoom extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Room Voice Chat'),
+      ),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () async {
+            final response = await Supabase.instance.client
+                .from('test_table')
+                .select()
+                .execute();
+
+            if (response.error == null) {
+              print('Data: ${response.data}');
+            } else {
+              print('Error: ${response.error.message}');
+            }
+          },
+          child: Text('Test Supabase Connection'),
         ),
       ),
     );
