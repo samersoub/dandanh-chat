@@ -25,7 +25,7 @@ void main() async {
 
   runApp(const MyApp());
 }
-git status
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -367,15 +367,14 @@ class HomeScreen extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () async {
-            final response = await Supabase.instance.client
-                .from('test_table')
-                .select()
-                .execute();
+            try {
+              final response = await Supabase.instance.client
+                  .from('test_table')
+                  .select();
 
-            if (response.error == null) {
-              print('Data: ${response.data}');
-            } else {
-              print('Error: ${response.error.message}');
+              print('Data: ${response}');
+            } catch (e) {
+              print('Exception: $e');
             }
           },
           child: Text('Test Supabase Connection'),
