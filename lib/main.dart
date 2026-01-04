@@ -1,7 +1,9 @@
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'widgets/host_section.dart';
 import 'widgets/participant_grid.dart';
@@ -17,6 +19,9 @@ import 'services/navigation_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Request permissions for microphone and camera
+  await [Permission.microphone, Permission.camera].request();
 
   await Supabase.initialize(
     url: 'https://gzdccsqoycbxummcpukp.supabase.co',
@@ -106,7 +111,8 @@ class VoiceChatRoom extends StatelessWidget {
                                 children: const [
                                   Text(
                                     'Wish List',
-                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     'Send her a wish gift',
@@ -119,7 +125,8 @@ class VoiceChatRoom extends StatelessWidget {
                               ),
                             ),
                             TextButton(
-                              onPressed: () => NavigationService.navigateTo(AppRoutes.settings),
+                              onPressed: () => NavigationService.navigateTo(
+                                  AppRoutes.settings),
                               child: Text(
                                 'Send',
                                 style: TextStyle(
@@ -165,7 +172,8 @@ class VoiceChatRoom extends StatelessWidget {
                           Row(
                             children: [
                               GestureDetector(
-                                onTap: () => NavigationService.navigateTo(AppRoutes.profile),
+                                onTap: () => NavigationService.navigateTo(
+                                    AppRoutes.profile),
                                 child: CircleAvatar(
                                   radius: 20,
                                   backgroundImage: CachedNetworkImageProvider(
@@ -223,7 +231,8 @@ class VoiceChatRoom extends StatelessWidget {
                               ),
                               IconButton(
                                 icon: const Icon(Icons.settings),
-                                onPressed: () => NavigationService.navigateTo(AppRoutes.settings),
+                                onPressed: () => NavigationService.navigateTo(
+                                    AppRoutes.settings),
                               ),
                             ],
                           ),
@@ -317,7 +326,9 @@ class VoiceChatRoom extends StatelessWidget {
                       Row(
                         children: [
                           GestureDetector(
-                            onTap: () => NavigationService.navigateToReplacement(AppRoutes.roomList),
+                            onTap: () =>
+                                NavigationService.navigateToReplacement(
+                                    AppRoutes.roomList),
                             child: Container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
@@ -368,9 +379,8 @@ class HomeScreen extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () async {
             try {
-              final response = await Supabase.instance.client
-                  .from('test_table')
-                  .select();
+              final response =
+                  await Supabase.instance.client.from('test_table').select();
 
               print('Data: ${response}');
             } catch (e) {
