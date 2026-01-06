@@ -102,21 +102,21 @@ class StorageService {
   Future<void> saveData(String key, dynamic value) async {
     await init();
     if (value is String) {
-      await _prefs.setString('${_keyPrefix}$key', value);
+      await _prefs.setString('$_keyPrefix$key', value);
     } else if (value is int) {
-      await _prefs.setInt('${_keyPrefix}$key', value);
+      await _prefs.setInt('$_keyPrefix$key', value);
     } else if (value is bool) {
-      await _prefs.setBool('${_keyPrefix}$key', value);
+      await _prefs.setBool('$_keyPrefix$key', value);
     } else if (value is double) {
-      await _prefs.setDouble('${_keyPrefix}$key', value);
+      await _prefs.setDouble('$_keyPrefix$key', value);
     } else {
-      await _prefs.setString('${_keyPrefix}$key', jsonEncode(value));
+      await _prefs.setString('$_keyPrefix$key', jsonEncode(value));
     }
   }
 
   Future<T?> getData<T>(String key) async {
     await init();
-    final value = _prefs.get('${_keyPrefix}$key');
+    final value = _prefs.get('$_keyPrefix$key');
     if (value != null) {
       if (T == String || T == int || T == bool || T == double) {
         return value as T;
@@ -128,7 +128,7 @@ class StorageService {
 
   Future<void> removeData(String key) async {
     await init();
-    await _prefs.remove('${_keyPrefix}$key');
+    await _prefs.remove('$_keyPrefix$key');
   }
 
   Future<void> clearAll() async {

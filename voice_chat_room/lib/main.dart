@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.dark(
           primary: Colors.yellow[400]!,
-          background: Colors.black,
+          surface: Colors.black,
         ),
         textTheme: GoogleFonts.robotoTextTheme(
           Theme.of(context).textTheme,
@@ -92,10 +92,10 @@ class VoiceChatRoom extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 12),
-                            Expanded(
+                            const Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   Text(
                                     'Wish List',
                                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -158,7 +158,7 @@ class VoiceChatRoom extends StatelessWidget {
                             children: [
                               GestureDetector(
                                 onTap: () => NavigationService.navigateTo(AppRoutes.profile),
-                                child: CircleAvatar(
+                                child: const CircleAvatar(
                                 radius: 20,
                                 backgroundImage: CachedNetworkImageProvider(
                                   'https://example.com/avatar.jpg',
@@ -234,8 +234,8 @@ class VoiceChatRoom extends StatelessWidget {
                               color: Colors.yellow[500],
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            child: Row(
-                              children: const [
+                            child: const Row(
+                              children: [
                                 Icon(
                                   Icons.military_tech,
                                   color: Colors.black,
@@ -253,8 +253,8 @@ class VoiceChatRoom extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Row(
-                            children: const [
+                          const Row(
+                            children: [
                               Text(
                                 'For You',
                                 style: TextStyle(
@@ -344,6 +344,6 @@ class VoiceChatRoom extends StatelessWidget {
           ),
         ),
       ),
-    );
+    )
   }
 }

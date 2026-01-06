@@ -30,7 +30,7 @@ class ProfileScreen extends StatelessWidget {
             Center(
               child: Stack(
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 60,
                     backgroundImage: CachedNetworkImageProvider(
                       'https://example.com/avatar.jpg',

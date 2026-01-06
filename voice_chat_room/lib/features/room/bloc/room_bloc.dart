@@ -84,7 +84,7 @@ class RoomBloc extends Bloc<RoomEvent, RoomState> {
   final FirebaseService _firebaseService;
   final AgoraService _agoraService;
   StreamSubscription? _roomSubscription;
-  List<int> _participants = [];
+  final List<int> _participants = [];
   String? _currentRoomId;
   bool _isHost = false;
 

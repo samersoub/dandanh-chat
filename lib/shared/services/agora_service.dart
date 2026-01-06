@@ -1,15 +1,18 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/foundation.dart';
 
 class AgoraService {
-  static const String appId = 'YOUR_AGORA_APP_ID'; // Replace with your Agora App ID
+  static const String appId =
+      'YOUR_AGORA_APP_ID'; // Replace with your Agora App ID
   RtcEngine? _engine;
   bool _isInitialized = false;
 
   // Callbacks
   Function(int uid)? onUserJoined;
   Function(int uid, UserOfflineReasonType reason)? onUserOffline;
-  Function(ConnectionStateType state, ConnectionChangedReasonType reason)? onConnectionStateChanged;
+  Function(ConnectionStateType state, ConnectionChangedReasonType reason)?
+      onConnectionStateChanged;
   Function(ErrorCodeType err, String msg)? onError;
   Function(String channelId, RtcStats stats)? onLeaveChannel;
 
@@ -17,9 +20,11 @@ class AgoraService {
     if (_isInitialized) return;
 
     // Request microphone permission
-    final status = await Permission.microphone.request();
-    if (status != PermissionStatus.granted) {
-      throw Exception('Microphone permission denied');
+    if (!kIsWeb) {
+      final status = await Permission.microphone.request();
+      if (status != PermissionStatus.granted) {
+        throw Exception('Microphone permission denied');
+      }
     }
 
     // Create RTC engine instance
@@ -37,10 +42,12 @@ class AgoraService {
       onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
         onUserJoined?.call(remoteUid);
       },
-      onUserOffline: (RtcConnection connection, int remoteUid, UserOfflineReasonType reason) {
+      onUserOffline: (RtcConnection connection, int remoteUid,
+          UserOfflineReasonType reason) {
         onUserOffline?.call(remoteUid, reason);
       },
-      onConnectionStateChanged: (RtcConnection connection, ConnectionStateType state, ConnectionChangedReasonType reason) {
+      onConnectionStateChanged: (RtcConnection connection,
+          ConnectionStateType state, ConnectionChangedReasonType reason) {
         onConnectionStateChanged?.call(state, reason);
       },
       onError: (ErrorCodeType err, String msg) {
@@ -54,12 +61,15 @@ class AgoraService {
     _isInitialized = true;
   }
 
-  Future<void> joinChannel(String channelName, int uid, {bool asHost = false}) async {
+  Future<void> joinChannel(String channelName, int uid,
+      {bool asHost = false}) async {
     if (!_isInitialized) await initialize();
 
     // Set client role
     await _engine!.setClientRole(
-      role: asHost ? ClientRoleType.clientRoleBroadcaster : ClientRoleType.clientRoleAudience,
+      role: asHost
+          ? ClientRoleType.clientRoleBroadcaster
+          : ClientRoleType.clientRoleAudience,
     );
 
     // Enable audio
@@ -93,7 +103,8 @@ class AgoraService {
     await _engine!.enableLocalAudio(enabled);
   }
 
-  Future<void> setAudioProfile(AudioProfileType profile, AudioScenarioType scenario) async {
+  Future<void> setAudioProfile(
+      AudioProfileType profile, AudioScenarioType scenario) async {
     if (!_isInitialized) return;
 
     await _engine!.setAudioProfile(

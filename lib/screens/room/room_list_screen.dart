@@ -86,7 +86,7 @@ class RoomListScreen extends StatelessWidget {
           children: [
             Row(
               children: [
-                CircleAvatar(
+                const CircleAvatar(
                   radius: 24,
                   backgroundImage: CachedNetworkImageProvider(
                     'https://example.com/host.jpg',

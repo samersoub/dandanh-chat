@@ -18,7 +18,7 @@ class AgoraService {
 
     try {
       _engine = createAgoraRtcEngine();
-      await _engine.initialize(RtcEngineContext(
+      await _engine.initialize(const RtcEngineContext(
         appId: AppConstants.agoraAppId,
         channelProfile: ChannelProfileType.channelProfileLiveBroadcasting,
       ));

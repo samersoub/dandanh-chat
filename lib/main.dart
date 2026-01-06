@@ -1,5 +1,5 @@
-import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -21,7 +21,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Request permissions for microphone and camera
-  await [Permission.microphone, Permission.camera].request();
+  if (!kIsWeb) {
+    await [Permission.microphone, Permission.camera].request();
+  }
 
   await Supabase.initialize(
     url: 'https://gzdccsqoycbxummcpukp.supabase.co',
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.dark(
           primary: Colors.yellow[400]!,
-          background: Colors.black,
+          surface: Colors.black,
         ),
         textTheme: GoogleFonts.robotoTextTheme(
           Theme.of(context).textTheme,
@@ -105,10 +107,10 @@ class VoiceChatRoom extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 12),
-                            Expanded(
+                            const Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   Text(
                                     'Wish List',
                                     style:
@@ -174,7 +176,7 @@ class VoiceChatRoom extends StatelessWidget {
                               GestureDetector(
                                 onTap: () => NavigationService.navigateTo(
                                     AppRoutes.profile),
-                                child: CircleAvatar(
+                                child: const CircleAvatar(
                                   radius: 20,
                                   backgroundImage: CachedNetworkImageProvider(
                                     'https://example.com/avatar.jpg',
@@ -252,8 +254,8 @@ class VoiceChatRoom extends StatelessWidget {
                               color: Colors.yellow[500],
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            child: Row(
-                              children: const [
+                            child: const Row(
+                              children: [
                                 Icon(
                                   Icons.military_tech,
                                   color: Colors.black,
@@ -271,8 +273,8 @@ class VoiceChatRoom extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Row(
-                            children: const [
+                          const Row(
+                            children: [
                               Text(
                                 'For You',
                                 style: TextStyle(
@@ -354,7 +356,7 @@ class VoiceChatRoom extends StatelessWidget {
                 ),
               ),
               // Bottom Navigation
-              Positioned(
+              const Positioned(
                 bottom: 0,
                 left: 0,
                 right: 0,
@@ -369,11 +371,13 @@ class VoiceChatRoom extends StatelessWidget {
 }
 
 class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Room Voice Chat'),
+        title: const Text('Room Voice Chat'),
       ),
       body: Center(
         child: ElevatedButton(
@@ -382,12 +386,12 @@ class HomeScreen extends StatelessWidget {
               final response =
                   await Supabase.instance.client.from('test_table').select();
 
-              print('Data: ${response}');
+              print('Data: $response');
             } catch (e) {
               print('Exception: $e');
             }
           },
-          child: Text('Test Supabase Connection'),
+          child: const Text('Test Supabase Connection'),
         ),
       ),
     );

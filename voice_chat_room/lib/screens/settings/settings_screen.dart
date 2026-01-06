@@ -57,7 +57,7 @@ class SettingsScreen extends StatelessWidget {
                   trailing: Switch(
                     value: true,
                     onChanged: (value) {},
-                    activeColor: Colors.yellow[700],
+                    activeThumbColor: Colors.yellow[700],
                   ),
                 ),
               ],
@@ -71,7 +71,7 @@ class SettingsScreen extends StatelessWidget {
                   trailing: Switch(
                     value: true,
                     onChanged: (value) {},
-                    activeColor: Colors.yellow[700],
+                    activeThumbColor: Colors.yellow[700],
                   ),
                 ),
                 _buildSettingTile(
